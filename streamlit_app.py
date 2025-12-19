@@ -9,11 +9,8 @@ st.write(
   """Choose the fruits you want in your custom Smoothie!
   """)
 
-
-
 name_on_order = st.text_input('Name on Smoothie')
 st.write('The name on your smoothie will be:', name_on_order)
-
 
 cnx = st.connection("snowflake")
 session = cnx.session()
@@ -34,8 +31,7 @@ if ingredients_list:
     for fruit_chosen in ingredients_list:
         ingredients_string += fruit_chosen + ' '
     #st.write(ingredients_string)
-    
-    
+      
     my_insert_stmt = """ insert into smoothies.public.orders(ingredients,name_on_order)
             values ('""" + ingredients_string + """','""" +name_on_order+ """')"""
 
@@ -47,3 +43,8 @@ if ingredients_list:
         session.sql(my_insert_stmt).collect()
         success_message = f"✅ Your Smoothie is ordered, {name_on_order}"
         st.success(success_message)
+
+
+import requests
+smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
+st.text(smoothiefroot_response)
